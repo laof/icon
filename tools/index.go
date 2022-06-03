@@ -40,7 +40,7 @@ func GetLink(url string, newPath chan string) {
 		chromedp.Evaluate("document.baseURI", &base),
 	)
 	if err != nil {
-		newPath <- ""
+		newPath <- err.Error()
 		return
 	}
 
