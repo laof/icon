@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"path"
+	"runtime"
 	"strings"
 	"time"
 
@@ -39,8 +40,10 @@ func GetLink(url string, newPath chan string) {
 		chromedp.AttributesAll("head > link", &res),
 		chromedp.Evaluate("document.baseURI", &base),
 	)
+
+	sysType := runtime.GOOS
 	if err != nil {
-		newPath <- err.Error()
+		newPath <- sysType + err.Error()
 		return
 	}
 
