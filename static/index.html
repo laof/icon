@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>icon testing</title>
+    <style>
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <input
+      id="target"
+      style="width: 500px; padding: 3px;"
+      type="text"
+      disabled
+    />
+    <br />
+    <input id="url" style="width: 500px; padding: 3px;" type="text" />
+
+    <button onClick="getIcon()" id="test_btn">test</button>
+
+    <div>
+      <img id="reivew" src="" alt="" />
+    </div>
+    <script>
+      // var test = 'https://cnodejs.org/topic/56ef3edd532839c33a99d00e'
+      var test = 'https://www.baidu.com'
+
+      document.getElementById('url').value = test
+
+
+      function getIcon() {
+        document.getElementById('target').value = 'loading...'
+        document.getElementById('reivew').src = ''
+        var tb = document.getElementById('test_btn')
+        tb.setAttribute('disabled', true)
+        var url = document.getElementById('url').value
+
+        fetch('/api/icon?url=' + url)
+          .then((res) => {
+            return res.text()
+          })
+          .then((res) => {
+            document.getElementById('target').value = res
+            var img = document.getElementById('reivew')
+            img.src = res
+            tb.removeAttribute('disabled')
+          })
+          .catch((e) => {
+            tb.removeAttribute('disabled')
+          })
+      }
+    </script>
+  </body>
+</html>
